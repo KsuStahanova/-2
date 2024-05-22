@@ -1,0 +1,412 @@
+Порождающий паттерн Одиночка (Singleton)
+
+
+Одиночка - это порождающий паттерн, который гарантирует, что у класса будет только один экземпляр,
+и предоставляет глобальную точку доступа к нему. Он полезен, когда нужно иметь общий ресурс или конфигурацию, доступную из любого места 
+
+Плюсы Одиночки 
+  Преимущества использования Одиночки:
+
+* Глобальная точка доступа: Предоставляет единую точку доступа к общему ресурсу, который доступен из любого места в приложении.
+* Управление жизненным циклом: Упрощает управление жизненным циклом ресурса, так как существует только один экземпляр.
+* Синхронизация:  синхронизация не требуется для доступа к нему из нескольких потоков.
+
+
+
+
+Минусы Одиночки 
+  * Тестирование: Может быть сложно протестировать код, зависящий от Singleton, так как он не поддерживает инъекцию зависимостей.
+  * Сложность: Большое количество Singletons в приложении может привести к сложности управления ими.
+  * Отсутствие возможности расширения: Singleton не может быть легко расширен новыми функциями, так как у него есть только один экземпляр.
+
+public class Singleton {
+    private static Singleton instance;
+    private Singleton() {}
+    public static Singleton getInstance() {
+        if (instance == null) {
+            instance = new Singleton();
+        }
+        return instance;
+ }
+Singleton instance = Singleton.getInstance(); // Для запуска
+}
+
+
+
+
+
+
+
+Параждающий Паттер
+Фабрика - это порождающий паттерн, который по сути  интерфейс для создания объектов, но скрывает
+логику их создания от пользователя. Принцып :используется, когда у нас есть суперкласс с несколькими подклассами и на основе ввода, нам нужно вернуть один из подкласса.
+
+
+Плюсы
+  Фабрика отделяет создание продукта от его использования, что делает код более гибким и поддерживаемым.
+ Новые продукты могут быть легко добавлены путем создания новых фабричных классов без изменения существующего кода.
+ Инверсия зависимостей: Клиентский код не зависит от конкретных классов продуктов, а только от интерфейса продукта.
+
+
+Минусы
+  Увеличение количества классов: Фабрика может привести к увеличению количества классов
+  Сложность реализации фабрики может возрасти 
+
+
+
+// Интерфейс продукта
+interface Product {
+    void doSomething();
+}
+
+// Конкретные реализации продукта
+class ConcreteProductA implements Product {
+    @Override
+    public void doSomething() {
+        // ...
+    }
+}
+
+class ConcreteProductB implements Product {
+    @Override
+    public void doSomething() {
+        // ...
+    }
+}
+
+// Интерфейс фабрики
+interface Factory {
+    Product createProduct();
+}
+
+// Конкретные фабрики
+class ConcreteFactoryA implements Factory {
+    @Override
+    public Product createProduct() {
+        return new ConcreteProductA();
+    }
+}
+
+class ConcreteFactoryB implements Factory {
+    @Override
+    public Product createProduct() {
+        return new ConcreteProductB();
+    }
+}
+
+// Клиентский код
+public class Client {
+    public static void main(String[] args) {
+        Factory factoryA = new ConcreteFactoryA();
+        Product productA = factoryA.createProduct();
+        productA.doSomething();
+
+        Factory factoryB = new ConcreteFactoryB();
+        Product productB = factoryB.createProduct();
+        productB.doSomething();
+    }
+}
+
+
+
+
+
+
+
+Паттерн Abstract Factory
+
+  Паттерн Abstract Factory предоставляет интерфейс для создания целых
+семейств связанных или зависимых объектов, не определяя их конкретных классов.
+ Обеспечивает слаабую связь между клиентом и продуктом .
+
+  Плюсы 
+Слабая связь между клиентом и конкретными продуктами: Паттерн Abstract Factory отделяет клиентский код от конкретных классов продуктов, что позволяет легко добавлять и удалять семейства продуктов.
+ Создание согласованных семейств продуктов: Фабрика гарантирует, что все продукты в семействе совместимы и работают вместе.
+ Паттерн легко расширяется за счет добавления новых фабрик и продуктов, что позволяет поддерживать растущие требования системы
+
+  Минусы
+Слабая связь между клиентом и конкретными продуктами: Паттерн Abstract Factory отделяет клиентский код от конкретных классов продуктов, что позволяет легко добавлять и удалять семейства продуктов.
+ Реализация паттерна Abstract Factory может быть сложной, особенно для больших иерархий продуктов.
+ Фабрика контролирует создание продуктов, что может ограничивать возможность клиентов переопределять поведение продукта.
+•Невозможность смешивания продуктов из разных фабрик. Продукты, созданные разными фабриками, несовместимы, что ограничивает возможность их использования в комбинации.
+
+
+
+interface Factory {
+    ProductA createProductA();
+    ProductB createProductB();
+}
+Конкретные реализации фабрик
+
+
+
+class ConcreteFactory1 implements Factory {
+    @Override
+    public ProductA createProductA() {
+        return new ConcreteProductA1();
+    }
+
+    @Override
+    public ProductB createProductB() {
+        return new ConcreteProductB1();
+    }
+}
+
+class ConcreteFactory2 implements Factory {
+    @Override
+    public ProductA createProductA() {
+        return new ConcreteProductA2();
+    }
+
+    @Override
+    public ProductB createProductB() {
+        return new ConcreteProductB2();
+    }
+}
+
+Продукты (интерфейсы)
+
+
+interface ProductA {
+  
+}
+
+interface ProductB {
+
+}
+
+
+class ConcreteProductA1 implements ProductA {
+   
+}
+
+class ConcreteProductA2 implements ProductA {
+
+}
+
+class ConcreteProductB1 implements ProductB {
+   
+}
+
+class ConcreteProductB2 implements ProductB {
+ 
+}
+
+class Client {
+    private Factory factory;
+
+    public Client(Factory factory) {
+        this.factory = factory;
+    }
+
+    public void createProducts() {
+        ProductA productA = factory.createProductA();
+        ProductB productB = factory.createProductB();
+    }
+}
+// Создание фабрики ConcreteFactory1
+Factory factory1 = new ConcreteFactory1();
+Client client1 = new Client(factory1);
+client1.createProducts();
+
+// Создание фабрики ConcreteFactory2
+Factory factory2 = new ConcreteFactory2();
+Client client2 = new Client(factory2);
+client2.createProducts();
+
+
+
+
+
+
+
+
+
+
+Паттерн Builder (Строитель)
+  Паттерн Builder предоставляет интерфейс для пошагового создания сложных объектов. Он позволяет разделять процесс
+
+Плюсы 
+  Создание сложных объектов по частям: Паттерн Builder позволяет создавать сложные объекты шаг за шагом, что делает код более управляемым и простым в обслуживании.
+  Паттерн позволяет легко изменять и расширять процесс создания объекта, добавляя или удаляя шаги строительства.
+  Паттерн отделяет процесс создания объекта от его представления, что упрощает изменение реализации продукта без влияния на клиентский код.
+
+Минусы
+  Паттерн может привести к избыточности кода, особенно когда объекты имеют много общих частей.
+ Реализация паттерна Builder может быть сложной, особенно для больших иерархий объектов.
+ Частично построенные объекты не могут быть повторно использованы, что может привести к потере усилий, если процесс создания прервется.
+
+interface Builder {
+    void setPart1(String part1);
+    void setPart2(String part2);
+    void setPart3(String part3);
+    Product getResult();
+}
+
+//Bild
+class ConcreteBuilder implements Builder {
+
+    private Product product;
+
+    public ConcreteBuilder() {
+        this.product = new Product();
+    }
+
+    @Override
+    public void setPart1(String part1) {
+        product.setPart1(part1);
+    }
+
+    @Override
+    public void setPart2(String part2) {
+        product.setPart2(part2);
+    }
+
+    @Override
+    public void setPart3(String part3) {
+        product.setPart3(part3);
+    }
+
+    @Override
+    public Product getResult() {
+        return product;
+    }
+}
+
+
+//Dir
+class Director {
+
+    private Builder builder;
+
+    public Director(Builder builder) {
+        this.builder = builder;
+    }
+
+    public void constructProduct() {
+        builder.setPart1("Часть 1");
+        builder.setPart2("Часть 2");
+        builder.setPart3("Часть 3");
+    }
+}
+
+
+
+//prodct
+class Product {
+
+    private String part1;
+    private String part2;
+    private String part3;
+
+    public void setPart1(String part1) {
+        this.part1 = part1;
+    }
+
+    public void setPart2(String part2) {
+        this.part2 = part2;
+    }
+
+    public void setPart3(String part3) {
+        this.part3 = part3;
+    }
+
+    public String toString() {
+        return "Продукт: {часть1='" + part1 + "', часть2='" + part2 + "', часть3='" + part3 + "'}";
+    }
+}
+
+
+Builder builder = new ConcreteBuilder();
+Director director = new Director(builder);
+director.constructProduct();
+Product product = builder.getResult();
+System.out.println(product);
+
+
+
+
+
+
+Паттерн Prototype (Прототип)
+
+Паттерн Prototype предоставляет механизм для создания новых объектов путем копирования существующего объекта. 
+Это позволяет избежать затрат на создание нового объекта с нуля.
+
+
+
+Плюсы 
+  Паттерн Prototype позволяет повторно использовать существующие объекты, избегая затрат на создание новых объектов с нуля.
+ Улучшение производительности
+ Паттерн Prototype обеспечивает централизованный контроль над созданием объектов, гарантируя единообразие и целостность объектов.
+
+
+
+
+Минусы
+   Сложность реализации. Реализация паттерна Prototype может быть сложной для объектов со сложной структурой и иерархией.
+    Невозможность клонирования абстрактных классов и интерфейсов
+
+
+
+
+
+
+interface Prototype {
+    Prototype clone();
+}
+
+
+class ConcretePrototype1 implements Prototype {
+    private int id;
+    private String name;
+
+    public ConcretePrototype1(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public Prototype clone() {
+        return new ConcretePrototype1(id, name);
+    }
+}
+
+class ConcretePrototype2 implements Prototype {
+    private int id;
+    private String name;
+
+    public ConcretePrototype2(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public Prototype clone() {
+        return new ConcretePrototype2(id, name);
+    }
+}
+
+//Client
+class Client {
+    public static void main(String[] args) {
+        Prototype prototype1 = new ConcretePrototype1(1, "Прототип 1");
+        Prototype prototype2 = prototype1.clone();
+
+        System.out.println("Прототип 1: " + prototype1);
+        System.out.println("Прототип 2: " + prototype2);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
